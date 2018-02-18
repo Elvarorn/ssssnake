@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Container from './components/Container/Container';
 import '../styles/site';
 
 class App extends React.Component {
@@ -8,7 +9,9 @@ class App extends React.Component {
     }
     render() {
         return (
-            <div>I am the Ass</div>
+            <Container>
+                <h2> i am the title</h2>
+            </Container>
         );
     }
 }
