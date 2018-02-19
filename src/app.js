@@ -12,8 +12,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-          userName: '',
-          _logged: false
+            userName: '',
         }
         const socket = socketClient('http://localhost:8080');
         this._socket = socket;
@@ -32,27 +31,22 @@ class App extends React.Component {
         this.setState({userName: user});
     }
 
-    setLogged(log) {
-      this.setState({_logged: log})
-    }
-
 
     render() {
-      console.log(this.state._logged, "in the render");
-          return (
+        return (
             <div>
-              <div  id = 'chat' className="container hidden">
-                  <ChatWindow>
-                  </ChatWindow>
-              </div>
+                <div  id = 'chat' className="container hidden">
+                    <ChatWindow>
+                    </ChatWindow>
+                </div>
 
                 <div id='login'>
                     <Login/>
                 </div>
             </div>
-            );
-          }
+        );
     }
+}
 
 
 App.childContextTypes = {

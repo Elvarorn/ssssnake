@@ -16,21 +16,21 @@ class Login extends React.Component {
             if(loggedIn) {
                 this.setState({logged:true});
             }
-          });
+        });
 
-          document.getElementById('login').classList.add('hidden');
-          document.getElementById('chat').classList.remove('hidden');
-        }
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('chat').classList.remove('hidden');
+    }
 
     render() {
-            const {user} = this.state;
-            return (
-                <div>
-                    <chatserver user = {this.state.value} />
-                    <input type="text" value = { user} onInput={(e) => this.setState({user: e.target.value})} />
-                    <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
-                </div>
-            );
+        const {user} = this.state;
+        return (
+            <div>
+                <chatserver user = {this.state.value} />
+                <input type="text" value = { user} onInput={(e) => this.setState({user: e.target.value})} />
+                <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
+            </div>
+        );
     }
 
 
@@ -39,4 +39,4 @@ Login.contextTypes = {
     socket: PropTypes.object.isRequired
 };
 
- export default Login;
+export default Login;
