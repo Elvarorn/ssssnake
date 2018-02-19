@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 
 
-class ChatWindow extends React.Component {
+export default class ChatWindow extends React.Component {
     componentDidMount() {
         const {socket} = this.context;
         socket.emit('sendmsg', (msg) => {
@@ -17,14 +17,15 @@ class ChatWindow extends React.Component {
         this.state = {
             msg: '',
             messages: [],
-            roomName: 'lobby'
+            roomName: 'lobby',
+            user: ''
         };
     }
     sendMessage() {
         const { socket } = this.context;
         let messageObject = {
             msg: this.state.msg,
-            room: this.state.roomName
+            roomName: this.state.roomName
         }
         socket.emit('sendmsg', messageObject);
 
@@ -53,4 +54,4 @@ ChatWindow.contextTypes = {
 
 };
 
-export default ChatWindow;
+//export default ChatWindow;

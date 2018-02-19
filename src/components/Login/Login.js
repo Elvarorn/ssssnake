@@ -1,4 +1,5 @@
 import React from 'react';
+import ChatWindow from '../ChatWindow/ChatWindow';
 import { PropTypes} from 'prop-types';
 
 class Login extends React.Component {
@@ -7,30 +8,38 @@ class Login extends React.Component {
         super(props);
         this.state ={
             user: '',
+            clicked: false
         };
     }
     validateAndConfirm() {
         const{ socket } = this.context;
-        socket.emit('adduser', this.state.user, (loggedIn) => {
+        socket.emit('addUser', this.state.user, () => {
 
-            if(loggedIn) {
-                this.setState({logged:true});
-            }
+            socket.emit('joinroom', {room:'lobby'},(reason) => {
+              console.log(reason);
+            });
         });
-
-        document.getElementById('login').classList.add('hidden');
-        document.getElementById('chat').classList.remove('hidden');
+        this.setState({clicked:true});
     }
 
     render() {
         const {user} = this.state;
-        return (
+        if(!this.state.clicked)
+        {
+        return(
             <div>
-                <chatserver user = {this.state.value} />
-                <input type="text" value = { user} onInput={(e) => this.setState({user: e.target.value})} />
+                <input type="text" value = { user} onInput={(e) => this.setState({user: e.target.user})} />
                 <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
             </div>
         );
+      }
+      else {
+        return(
+          <div className = 'container'>
+              <ChatWindow user = {this.state.user} />
+          </div>
+        )
+      }
     }
 
 

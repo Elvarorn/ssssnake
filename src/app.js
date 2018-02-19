@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
 import '../styles/site';
 import socketClient from 'socket.io-client';
-import ChatWindow from './components/ChatWindow/ChatWindow';
 import Login from './components/Login/Login';
 
 
@@ -34,16 +33,9 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
-                <div  id = 'chat' className="container hidden">
-                    <ChatWindow>
-                    </ChatWindow>
-                </div>
-
-                <div id='login'>
+                <div>
                     <Login/>
                 </div>
-            </div>
         );
     }
 }
