@@ -5,7 +5,8 @@ import { PropTypes } from 'prop-types';
 class ChatWindow extends React.Component {
     componentDidMount() {
         const {socket} = this.context;
-        socket.on('sendmsg', (msg) => {
+        socket.emit('sendmsg', (msg) => {
+            console.log(msg);
             let messages = Object.assign({}, this.state.messages);
             messages.push(`${(new Date()).toLocateTimeString()} - $(msg)`);
             this.setState({ messages});
@@ -15,14 +16,19 @@ class ChatWindow extends React.Component {
         super(props);
         this.state = {
             msg: '',
-            messages: []
+            messages: [],
+            roomName: 'lobby'
         };
     }
     sendMessage() {
-        const {socket} = this.context;
-        socket.emit('sendmsg', this.state.msg);
-        console.log(this.state.msg);
-        this.setState({msg: ''});
+        const { socket } = this.context;
+        let messageObject = {
+            msg: this.state.msg,
+            room: this.state.roomName
+        }
+        socket.emit('sendmsg', messageObject);
+
+        this.setState({ msg: '' });
     }
     render() {
         const { messages, msg} = this.state;
