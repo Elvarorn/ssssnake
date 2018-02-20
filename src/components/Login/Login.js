@@ -24,7 +24,7 @@ class Login extends React.Component {
             if(available) {
                 console.log('username available');
             } else {
-                console.log('username taken');
+              alert('username taken!');
             }
             console.log('guy ADDED!')
 
@@ -53,9 +53,10 @@ class Login extends React.Component {
         } else {
             return(
                 <div className = 'container'>
-                    <ChatWindow user = {this.state.user} />
+
+                    <ChatWindow getUser = {this.state.user} getRoomName = {'lobby'} />
                 </div>
-            )
+            );
         }
     }
 

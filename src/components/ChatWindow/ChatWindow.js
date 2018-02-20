@@ -4,12 +4,13 @@ import { PropTypes } from 'prop-types';
 
 export default class ChatWindow extends React.Component {
     componentDidMount() {
-       const {socket} = this.context;
-        socket.on('sendmsg', (msg) => {
-            console.log(msg);
-            let messages = Object.assign({}, this.state.messages);
-            messages.push(`${(new Date()).toLocateTimeString()} - $(msg)`);
-            this.setState({ messages});
+        const {socket} = this.context;
+        console.log('componentdidmount');
+        socket.on('updatechat', (roomName, msg)=> {
+          this.setState({currRoom:roomName})
+          this.setState({messages: msg});
+          socket.emit('users');
+          socket.emit('rooms');
         });
     }
     constructor(props) {
@@ -17,25 +18,26 @@ export default class ChatWindow extends React.Component {
         this.state = {
             msg: '',
             messages: [],
-            roomName: 'lobby',
+            currRoom: 'lobby',
             userName: ''
-        };
+          };
     }
     sendMessage() {
         const { socket } = this.context;
         let messageObject = {
             msg: this.state.msg,
-            roomName: this.state.roomName
+            roomName: this.state.currRoom
         }
         socket.emit('sendmsg', messageObject);
           console.log(messageObject.msg);
         this.setState({ msg: '' });
+        console.log(this.state.currRoom, ', ', this.state.userName, 'did it work ???');
     }
     render() {
         const { messages, msg} = this.state;
         return (
             <div className="chat-window">
-                {messages.map(m => ( <div key={m}>{m}</div> ))}
+                {messages.map((m,i) => ( <div key={i}>{m.timestamp + ' ' + m.nick + ': ' + m.message}</div> ))}
                 <div className="input-box">
                     <input
                         type="text"
