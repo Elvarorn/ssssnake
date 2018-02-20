@@ -44,9 +44,10 @@ class Login extends React.Component {
         const {user} = this.state;
         if(!this.state.clicked) {
             return(
-                <div>
-                    <input type="text"  value = { user} onInput={(e) => this.setState({user: e.target.value})}/>
-                    <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
+                <div className='login-box'>
+                    <p><b>Please enter your username</b> </p>
+                    <input type="text" className="input-text" value = { user} onInput={(e) => this.setState({user: e.target.value})}/>
+                    <button type="button" className='button' onClick = {() => this.validateAndConfirm()} >Confirm</button>
                 </div>
             );
         } else {

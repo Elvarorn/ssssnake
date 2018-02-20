@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../Navbar/Navbar';
 import PrivateMessage from '../PrivateMessage/PrivateMessage';
+import UserList from '../UserList/UserList';
 import { PropTypes } from 'prop-types';
 
 
@@ -83,6 +84,9 @@ export default class ChatWindow extends React.Component {
 
             </div>
 
+            </div>
+            <div className='userlistbro'>
+            <UserList room = {this.state.currRoom} user = {this.state.userName}/>
             </div>
 
           </div>
