@@ -7,11 +7,13 @@ import { PropTypes } from 'prop-types';
 export default class ChatWindow extends React.Component {
     componentDidMount() {
         const {socket} = this.context;
+
+        socket.on('roomlist', rooms => this.setState( { roomList: Object.keys(rooms).map(key => { return { name: key, ...rooms[key] } } ) }));
+
         socket.on('updatechat', (roomName, msg)=> {
+
           this.setState({currRoom:roomName})
           this.setState({messages: msg});
-          socket.emit('users');
-          socket.emit('rooms');
         });
     }
     constructor(props) {
@@ -31,15 +33,40 @@ export default class ChatWindow extends React.Component {
             roomName: this.state.currRoom
         }
         socket.emit('sendmsg', messageObject);
-          console.log(messageObject.msg);
         this.setState({ msg: '' });
     }
+
+    changeRoom(newRoom) {
+        const { socket } = this.context;
+        let roomObj = {
+          room: newRoom,
+          pass: ''
+        }
+        socket.emit('joinroom', roomObj,(accepted,reason) => {
+                  if(accepted) {
+                    console.log(newRoom, 'joined this room');
+                      socket.emit('partroom', this.state.currRoom);
+                      socket.on('updateusers', (userchannel, user) => {
+                          console.log(user);
+                      });
+                      console.log(this.state.currRoom, ' left this room');
+                      this.setState({currRoom: newRoom});
+
+                      alert(newRoom + ' room joined');
+                  } else {
+                      console.log(reason, '<- this is the damn reason');
+                  }
+              });
+
+              console.log('this is the shit: ', this.state.roomList);
+    };
+
     render() {
         const { messages, msg} = this.state;
         return (
           <div>
           <div className='navBarbro'>
-          <Navbar  getUser = {this.state.user} getCurrRoom = {this.state.currRoom} />
+          <Navbar  getNewRoom={this.changeRoom.bind(this)} getRooms= {this.state.roomList} getCurrRoom = {this.state.currRoom} />
           </div>
           <div className='container'>
             <div className="chat-window">
@@ -55,6 +82,7 @@ export default class ChatWindow extends React.Component {
                 </div>
 
             </div>
+
             </div>
 
           </div>
@@ -67,5 +95,3 @@ ChatWindow.contextTypes = {
     socket: PropTypes.object.isRequired
 
 };
-
-//export default ChatWindow;

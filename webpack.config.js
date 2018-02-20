@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const chikacha =  require('transform-object-rest-spread')
 
 module.exports = {
     entry: './src/app.js',
@@ -25,7 +26,7 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
-        port: 4567,
+        port: 1233,
         open: true
     },
     devtool: 'inline-source-map',

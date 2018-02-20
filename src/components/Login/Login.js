@@ -8,11 +8,11 @@ class Login extends React.Component {
         super(props);
         this.state ={
             user: '',
+            users: [],
             clicked: false,
         };
         this.validateAndConfirm = this.validateAndConfirm.bind(this);
     }
-
 
     validateAndConfirm() {
         const{ socket } = this.context;
@@ -20,7 +20,7 @@ class Login extends React.Component {
         socket.emit('adduser', name, (available) => {
 
             if(available) {
-
+              this.state.users.push(name);
                 socket.emit('joinroom', {room:'lobby'},(accepted, reason) => {
                     if(accepted) {
                         console.log('room joined');
@@ -53,7 +53,6 @@ class Login extends React.Component {
             return(
                 <div>
                     <div>
-
                         <ChatWindow getUser = {this.state.user} getRoomName = {'lobby'} />
                     </div>
                 </div>

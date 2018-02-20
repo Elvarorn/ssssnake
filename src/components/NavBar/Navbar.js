@@ -6,50 +6,35 @@ class Navbar extends React.Component {
     constructor(props) {
         super(props);
         this.state ={
-          rooms: [],
-          currRoom: props.getCurrRoom,
-          username: props.getUser,
-          newRoom: ''
+          currentRoom: props.getCurrRoom,
+          rooms: props.getRooms
         }
-        this.validateAndConfirm = this.validateAndConfirm.bind(this);
     }
 
-      validateAndConfirm() {
 
-            const{ socket } = this.context;
-        socket.emit('partroom', this.state.currRoom);
+      backToChat() {
 
-
-        socket.emit('joinroom', this.state.newRoom ,(accepted,reason) => {
-            if(accepted) {
-                console.log('room joined');
-            } else {
-                console.log(reason, 'brooo');
-            }
-            console.log(this.state.newRoom, 'the new room');
-            console.log(this.state.currRoom, ' before');
-            this.setState({currRoom: this.state.newRoom});
-            console.log(this.state.currRoom, ' after')
-            this.setState({newRoom:''});
-        });
-
-
-
-
+          this.props.getNewRoom(this.state.newRoom);
       }
-
     render() {
-        const {currRoom, username , rooms, newRoom} = this.state;
-        console.log(currRoom, username, rooms , newRoom);
-
+        const {newRoom} = this.state;
+        console.log(newRoom);
         return(
           <div>
-          <p>current room: </p>
-          { this.state.currRoom }
-              <p> new room </p>
-              <input type="text"  onInput={(e) => this.setState({newRoom: e.target.value})}/>
-              <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
+          <p>current room: { this.state.currRoom } </p>
 
+              <p> join or create room </p>
+              <input type="text"  onInput={(e) => this.setState({newRoom: e.target.value})}/>
+              <button type="button" onClick = {() => this.backToChat()} >Confirm</button>
+
+              <div>
+              <p>Rooms:</p>
+                <ul>
+                {this.state.rooms.map((room, i) =>(
+
+                  <li key={i}> {this.state.rooms} </li>  ))}
+                </ul>
+              </div>
           </div>
         );
     }
