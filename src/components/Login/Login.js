@@ -15,22 +15,11 @@ class Login extends React.Component {
     }
 
 
-    /*
-    socket.emit('adduser', nickname, function(available) {
-                if(available) {
-                    this.setState({nickname});
-                } else {
-                    this.setState({error:'Notavailable'});
-                    alert('Nickname is not available');
-                }
-            }.bind(this));
-
-    */
     validateAndConfirm() {
         const{ socket } = this.context;
         console.log(this.state.user, 'this is the user');
         var name = this.state.user;
-        socket.emit('addUser', name, (available) => {
+        socket.emit('adduser', name, (available) => {
 
             if(available) {
                 console.log('username available');
@@ -38,15 +27,17 @@ class Login extends React.Component {
                 console.log('username taken');
             }
             console.log('guy ADDED!')
+
+            socket.emit('joinroom', {room:'lobby'},(accepted,reason) => {
+                if(accepted) {
+                    console.log('room joined');
+                } else {
+                    console.log(reason);
+                }
+            });
         });
 
-        socket.emit('joinroom', {room:'lobby'},(accepted,reason) => {
-            if(accepted) {
-                console.log('room joined');
-            } else {
-                console.log(reason);
-            }
-        });
+
         this.setState({clicked:true});
     }
 

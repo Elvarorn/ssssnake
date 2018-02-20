@@ -4,8 +4,8 @@ import { PropTypes } from 'prop-types';
 
 export default class ChatWindow extends React.Component {
     componentDidMount() {
-        const {socket} = this.context;
-        socket.emit('sendmsg', (msg) => {
+       const {socket} = this.context;
+        socket.on('sendmsg', (msg) => {
             console.log(msg);
             let messages = Object.assign({}, this.state.messages);
             messages.push(`${(new Date()).toLocateTimeString()} - $(msg)`);
@@ -28,7 +28,7 @@ export default class ChatWindow extends React.Component {
             roomName: this.state.roomName
         }
         socket.emit('sendmsg', messageObject);
-
+          console.log(messageObject.msg);
         this.setState({ msg: '' });
     }
     render() {
