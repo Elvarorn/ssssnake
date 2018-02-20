@@ -23,7 +23,7 @@ class Login extends React.Component {
 
             if(available) {
                 console.log('username available');
-                socket.emit('joinroom', {room:'lobby'},(accepted,reason) => {
+                socket.emit('joinroom', {room:'lobby'},(accepted) => {
                 if(accepted) {
                     console.log('room joined');
                 } else {
