@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../Navbar/Navbar';
+import PrivateMessage from '../PrivateMessage/PrivateMessage';
 import { PropTypes } from 'prop-types';
 
 
@@ -50,12 +51,14 @@ export default class ChatWindow extends React.Component {
                         className="input input-big"
                         onInput={(e) => this.setState({msg: e.target.value})} />
                     <button type="button" className="btn" onClick={() => this.sendMessage()}>Send</button>
+                    <PrivateMessage/>
                 </div>
+
             </div>
             </div>
 
           </div>
-          
+
         );
     }
 };
