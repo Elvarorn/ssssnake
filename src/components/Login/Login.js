@@ -34,8 +34,7 @@ class Login extends React.Component {
 
             if(available) {
                 console.log('username available');
-            }
-            else {
+            } else {
                 console.log('username taken');
             }
             console.log('guy ADDED!')
@@ -44,8 +43,7 @@ class Login extends React.Component {
         socket.emit('joinroom', {room:'lobby'},(accepted,reason) => {
             if(accepted) {
                 console.log('room joined');
-            }
-            else {
+            } else {
                 console.log(reason);
             }
         });
@@ -61,8 +59,7 @@ class Login extends React.Component {
                     <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
                 </div>
             );
-        }
-        else {
+        } else {
             return(
                 <div className = 'container'>
                     <ChatWindow user = {this.state.user} />

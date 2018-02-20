@@ -18,7 +18,7 @@ export default class ChatWindow extends React.Component {
             msg: '',
             messages: [],
             roomName: 'lobby',
-            user: ''
+            userName: ''
         };
     }
     sendMessage() {
