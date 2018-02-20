@@ -8,17 +8,49 @@ class Login extends React.Component {
         super(props);
         this.state ={
             user: '',
-            clicked: false
+            clicked: false,
+            error: ' '
         };
+        this.validateAndConfirm = this.validateAndConfirm.bind(this);
     }
+
+
+    /*
+    socket.emit('adduser', nickname, function(available) {
+                if(available) {
+                    this.setState({nickname});
+                } else {
+                    this.setState({error:'Notavailable'});
+                    alert('Nickname is not available');
+                }
+            }.bind(this));
+
+    */
     validateAndConfirm() {
         const{ socket } = this.context;
-        socket.emit('addUser', this.state.user, () => {
+        console.log(this.state.user, 'this is the user');
+        var name = this.state.user;
+        socket.emit('addUser', name, (available) => {
 
-            socket.emit('joinroom', {room:'lobby'},(reason) => {
-              console.log(reason);
+        if(available)
+        {
+          console.log('username available');
+        }
+        else {
+        console.log('username taken');
+        }
+        console.log('guy ADDED!')
+      });
+
+        socket.emit('joinroom', {room:'lobby'},(accepted,reason) => {
+              if(accepted)
+              {
+                console.log('room joined');
+              }
+              else {
+                console.log(reason);
+              }
             });
-        });
         this.setState({clicked:true});
     }
 
@@ -28,7 +60,7 @@ class Login extends React.Component {
         {
         return(
             <div>
-                <input type="text" value = { user} onInput={(e) => this.setState({user: e.target.user})} />
+                <input type="text"  value = { user} onInput={(e) => this.setState({user: e.target.value})}/>
                 <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
             </div>
         );
