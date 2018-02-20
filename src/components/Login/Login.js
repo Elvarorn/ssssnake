@@ -52,8 +52,16 @@ class Login extends React.Component {
         } else {
             return(
                 <div>
+<<<<<<< HEAD
+=======
+                    <div className="navBarbro">
+                        dis is the nav bar bitch
+                    </div>
+                    <div className = 'container'>
+>>>>>>> 963132d7fdc728db89e7261a7501a9dfa20b1077
 
-                    <ChatWindow getUser = {this.state.user} getRoomName = {'lobby'} />
+                        <ChatWindow getUser = {this.state.user} getRoomName = {'lobby'} />
+                    </div>
                 </div>
             );
         }
