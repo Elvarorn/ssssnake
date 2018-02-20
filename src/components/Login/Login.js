@@ -32,46 +32,43 @@ class Login extends React.Component {
         var name = this.state.user;
         socket.emit('addUser', name, (available) => {
 
-        if(available)
-        {
-          console.log('username available');
-        }
-        else {
-        console.log('username taken');
-        }
-        console.log('guy ADDED!')
-      });
+            if(available) {
+                console.log('username available');
+            }
+            else {
+                console.log('username taken');
+            }
+            console.log('guy ADDED!')
+        });
 
         socket.emit('joinroom', {room:'lobby'},(accepted,reason) => {
-              if(accepted)
-              {
+            if(accepted) {
                 console.log('room joined');
-              }
-              else {
+            }
+            else {
                 console.log(reason);
-              }
-            });
+            }
+        });
         this.setState({clicked:true});
     }
 
     render() {
         const {user} = this.state;
-        if(!this.state.clicked)
-        {
-        return(
-            <div>
-                <input type="text"  value = { user} onInput={(e) => this.setState({user: e.target.value})}/>
-                <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
-            </div>
-        );
-      }
-      else {
-        return(
-          <div className = 'container'>
-              <ChatWindow user = {this.state.user} />
-          </div>
-        )
-      }
+        if(!this.state.clicked) {
+            return(
+                <div>
+                    <input type="text"  value = { user} onInput={(e) => this.setState({user: e.target.value})}/>
+                    <button type="button" onClick = {() => this.validateAndConfirm()} >Confirm</button>
+                </div>
+            );
+        }
+        else {
+            return(
+                <div className = 'container'>
+                    <ChatWindow user = {this.state.user} />
+                </div>
+            )
+        }
     }
 
 
