@@ -36,7 +36,7 @@ class PrivateMessage extends React.Component {
         });
     }
 
-   render() {
+    render() {
         const { messages, msg, userName } = this.state;
         return (
             <div className="privateMessageBox">

@@ -20,7 +20,7 @@ class Login extends React.Component {
         socket.emit('adduser', name, (available) => {
 
             if(available) {
-              this.state.users.push(name);
+                this.state.users.push(name);
                 socket.emit('joinroom', {room:'lobby'},(accepted, reason) => {
                     if(accepted) {
                         console.log('room joined');
@@ -29,10 +29,10 @@ class Login extends React.Component {
                     }
                 });
 
-                  this.setState({clicked:true});
+                this.setState({clicked:true});
             } else {
 
-              alert('username taken!');
+                alert('username taken!');
 
             }
             console.log('guy ADDED!')
