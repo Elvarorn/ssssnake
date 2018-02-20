@@ -1,11 +1,11 @@
 import React from 'react';
+import Navbar from '../Navbar/Navbar';
 import { PropTypes } from 'prop-types';
 
 
 export default class ChatWindow extends React.Component {
     componentDidMount() {
         const {socket} = this.context;
-        console.log('componentdidmount');
         socket.on('updatechat', (roomName, msg)=> {
           this.setState({currRoom:roomName})
           this.setState({messages: msg});
@@ -18,8 +18,9 @@ export default class ChatWindow extends React.Component {
         this.state = {
             msg: '',
             messages: [],
-            currRoom: 'lobby',
-            userName: ''
+            currRoom: props.getRoomName,
+            roomList: [],
+            userName: props.getUser
           };
     }
     sendMessage() {
@@ -31,11 +32,15 @@ export default class ChatWindow extends React.Component {
         socket.emit('sendmsg', messageObject);
           console.log(messageObject.msg);
         this.setState({ msg: '' });
-        console.log(this.state.currRoom, ', ', this.state.userName, 'did it work ???');
     }
     render() {
         const { messages, msg} = this.state;
         return (
+          <div>
+          <div className='navBarbro'>
+          <Navbar  getUser = {this.state.user} getCurrRoom = {this.state.currRoom} />
+          </div>
+          <div className='container'>
             <div className="chat-window">
                 {messages.map((m,i) => ( <div key={i}>{m.timestamp + ' ' + m.nick + ': ' + m.message}</div> ))}
                 <div className="input-box">
@@ -47,6 +52,10 @@ export default class ChatWindow extends React.Component {
                     <button type="button" className="btn" onClick={() => this.sendMessage()}>Send</button>
                 </div>
             </div>
+            </div>
+
+          </div>
+          
         );
     }
 };

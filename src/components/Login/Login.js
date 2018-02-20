@@ -9,7 +9,6 @@ class Login extends React.Component {
         this.state ={
             user: '',
             clicked: false,
-            error: ' '
         };
         this.validateAndConfirm = this.validateAndConfirm.bind(this);
     }
@@ -17,28 +16,28 @@ class Login extends React.Component {
 
     validateAndConfirm() {
         const{ socket } = this.context;
-        console.log(this.state.user, 'this is the user');
         var name = this.state.user;
         socket.emit('adduser', name, (available) => {
 
             if(available) {
-                console.log('username available');
+
+                socket.emit('joinroom', {room:'lobby'},(accepted, reason) => {
+                    if(accepted) {
+                        console.log('room joined');
+                    } else {
+                        alert(reason);
+                    }
+                });
+
+                  this.setState({clicked:true});
             } else {
+
               alert('username taken!');
+
             }
             console.log('guy ADDED!')
-
-            socket.emit('joinroom', {room:'lobby'},(accepted,reason) => {
-                if(accepted) {
-                    console.log('room joined');
-                } else {
-                    console.log(reason);
-                }
-            });
         });
 
-
-        this.setState({clicked:true});
     }
 
     render() {
@@ -52,7 +51,7 @@ class Login extends React.Component {
             );
         } else {
             return(
-                <div className = 'container'>
+                <div>
 
                     <ChatWindow getUser = {this.state.user} getRoomName = {'lobby'} />
                 </div>
